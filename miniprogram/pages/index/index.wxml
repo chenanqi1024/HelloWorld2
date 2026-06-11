@@ -1,0 +1,174 @@
+<view class="page">
+  <view class="ambient ambient-cyan"></view>
+  <view class="ambient ambient-indigo"></view>
+  <view class="ambient ambient-orange"></view>
+  <view class="grain"></view>
+
+  <view class="sparkle sparkle-one">
+    <view class="sparkle-line vertical"></view>
+    <view class="sparkle-line horizontal"></view>
+  </view>
+  <view class="sparkle sparkle-two">
+    <view class="sparkle-line vertical"></view>
+    <view class="sparkle-line horizontal"></view>
+  </view>
+  <view class="sparkle sparkle-three">
+    <view class="sparkle-line vertical"></view>
+    <view class="sparkle-line horizontal"></view>
+  </view>
+
+  <view class="custom-nav" style="height: {{navHeight}}px;">
+    <view class="brand-mark" aria-hidden="true">
+      <view class="brand-star brand-star-a"></view>
+      <view class="brand-star brand-star-b"></view>
+    </view>
+    <text class="brand-name">拾光签</text>
+  </view>
+
+  <scroll-view class="page-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="content" style="padding-top: {{navHeight}}px;">
+      <view class="hero">
+        <view class="date-pill">
+          <view class="mini-star"></view>
+          <text>{{dateLabel}}</text>
+        </view>
+        <text class="hero-title">今日，抽个好签</text>
+        <text class="hero-subtitle">静下心想一件事，让答案轻轻落下</text>
+      </view>
+
+      <view class="stage-card glass-card">
+        <view class="stage-orbit orbit-large"></view>
+        <view class="stage-orbit orbit-small"></view>
+        <view class="glow-core"></view>
+
+        <view class="fortune-wrap {{isDrawing ? 'is-shaking' : ''}}">
+          <view class="stick stick-one">
+            <view class="stick-dot"></view>
+          </view>
+          <view class="stick stick-two">
+            <view class="stick-dot"></view>
+          </view>
+          <view class="stick stick-three">
+            <view class="stick-dot"></view>
+          </view>
+          <view class="stick stick-four">
+            <view class="stick-dot"></view>
+          </view>
+          <view class="stick stick-five">
+            <view class="stick-dot"></view>
+          </view>
+          <view class="stick stick-six">
+            <view class="stick-dot"></view>
+          </view>
+
+          <view class="fortune-jar">
+            <view class="jar-rim"></view>
+            <view class="jar-highlight"></view>
+            <view class="jar-label">
+              <view class="label-star"></view>
+              <text>签</text>
+            </view>
+          </view>
+        </view>
+
+        <view class="draw-status">
+          <view class="status-dot {{isDrawing ? 'active' : ''}}"></view>
+          <text>{{isDrawing ? '正在聆听你的心愿…' : '轻触下方按钮，抽取今日签'}}</text>
+        </view>
+      </view>
+
+      <button
+        class="draw-button"
+        hover-class="draw-button-pressed"
+        bindtap="drawFortune"
+        disabled="{{isDrawing}}"
+        aria-label="抽取今日签"
+      >
+        <view class="button-shine"></view>
+        <view class="button-star">
+          <view class="button-star-line vertical"></view>
+          <view class="button-star-line horizontal"></view>
+        </view>
+        <text>{{isDrawing ? '正在抽签' : '抽一支签'}}</text>
+        <view class="button-arrow"></view>
+      </button>
+
+      <view class="stats-row">
+        <view class="stat-chip glass-card">
+          <text class="stat-value">{{drawCount}}</text>
+          <text class="stat-label">今日已抽</text>
+        </view>
+        <view class="stat-divider"></view>
+        <view class="stat-chip glass-card">
+          <text class="stat-value">随心</text>
+          <text class="stat-label">不设次数</text>
+        </view>
+        <view class="stat-divider"></view>
+        <view class="stat-chip glass-card">
+          <text class="stat-value">此刻</text>
+          <text class="stat-label">就是好时机</text>
+        </view>
+      </view>
+
+      <view class="daily-note glass-card">
+        <view class="quote-mark">“</view>
+        <view class="note-copy">
+          <text class="note-label">今日小语</text>
+          <text class="note-text">答案也许不在远方，而在你愿意迈出的下一步。</text>
+        </view>
+        <view class="note-decoration"></view>
+      </view>
+
+      <text class="footer-text">心诚则灵 · 娱乐体验 · 理性看待</text>
+    </view>
+  </scroll-view>
+
+  <view
+    wx:if="{{showResult}}"
+    class="result-mask"
+    catchtouchmove="stopTouch"
+    bindtap="closeResult"
+  >
+    <view class="result-sheet glass-card" catchtap="stopTouch">
+      <button
+        class="close-button"
+        hover-class="close-button-pressed"
+        bindtap="closeResult"
+        aria-label="关闭抽签结果"
+      >
+        <view class="close-line close-line-a"></view>
+        <view class="close-line close-line-b"></view>
+      </button>
+
+      <view class="result-light result-light-left"></view>
+      <view class="result-light result-light-right"></view>
+
+      <view class="result-badge">
+        <view class="badge-ring"></view>
+        <view class="badge-star">
+          <view class="badge-line vertical"></view>
+          <view class="badge-line horizontal"></view>
+        </view>
+      </view>
+
+      <text class="result-level">{{result.level}}</text>
+      <text class="result-title">{{result.title}}</text>
+      <view class="result-divider">
+        <view class="result-divider-line"></view>
+        <view class="divider-diamond"></view>
+        <view class="result-divider-line"></view>
+      </view>
+      <text class="result-message">{{result.message}}</text>
+      <view class="result-hint">{{result.hint}}</view>
+
+      <button
+        class="again-button"
+        hover-class="again-button-pressed"
+        bindtap="drawAgain"
+      >
+        再抽一次
+      </button>
+      <text class="result-caption">愿今天的签，为你带来一点笃定</text>
+    </view>
+  </view>
+</view>
